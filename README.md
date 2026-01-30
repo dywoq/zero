@@ -1,6 +1,6 @@
 # Zero
 
-Zero - is an operating system, written in Rust. Its goal is to be ABI stable, to support the most-used architectures and provide modern, clean SDKs and tools.
+Zero - is an open-source operating system, written in Rust. Its goal is to be ABI stable, to support the most-used architectures and provide modern, clean SDKs and tools.
 
 # Roadmap
 
