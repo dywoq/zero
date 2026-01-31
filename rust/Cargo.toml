@@ -1,3 +1,7 @@
 [workspace]
 resolver = "3"
-members = ["zero_bootloader","zero_kernel"]
+members = [
+    "crates/zero_bootinfo",
+    "zero_bootloader",
+    "zero_kernel"
+]
