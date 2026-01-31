@@ -28,6 +28,7 @@ var requiredTools = []*requiredTool{
 	{"Cargo", "Package management inside rust/", "cargo"},
 	{"CMake", "Package management for C/C++", "cmake"},
 	{"Xorriso", "Needed for .ISO image generation", "xorriso"},
+	{"Make", "Automation", "make"},
 }
 
 func Check() *cobra.Command {
