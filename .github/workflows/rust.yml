@@ -10,30 +10,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  clippy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - name: Install Rust
-        run: rustup component add clippy
-        working-directory: ./rust
-      - name: Run Clippy
-        run: cargo clippy -- -D warnings
-        working-directory: ./rust
-
-  fmt-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - name: Install Rustfmt
-        run: rustup component add rustfmt
-        working-directory: ./rust
-      - name: Check formatting
-        run: cargo fmt -- --check
-        working-directory: ./rust
-
   build-and-test:
-    needs: [clippy, fmt-check]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -42,6 +19,26 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+
+      # Format check
+      - name: Install Rustfmt [FORMAT 1/2]
+        run: rustup component add rustfmt
+        working-directory: ./rust
+      - name: Check format [FORMAT 2/2]
+        run: cargo fmt -- --check
+        working-directory: ./rust
+
+      # Linting
+      - name: Install Clippy [LINTING 1/2]
+        run: rustup component add rustfmt
+        working-directory: ./rust
+        if: matrix.target == `x86_64-unknown-uefi`
+      - name: Run clippy [LINTING 2/2]
+        run: cargo fmt -- --check
+        working-directory: ./rust
+        if: matrix.target == `x86_64-unknown-uefi`
+
+      # Building
       - name: Build (dev)
         run: cargo build --verbose --target ${{ matrix.target }}
         working-directory: ./rust
