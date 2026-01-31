@@ -9,14 +9,4 @@
 #![no_main]
 #![no_std]
 
-use uefi::{Status, entry, helpers};
-
-pub(crate) mod info;
-pub(crate) mod panic;
-
-#[entry]
-fn main() -> Status {
-    helpers::init().expect("Initialization of helpers failed");
-
-    Status::SUCCESS
-}
+pub mod time;
