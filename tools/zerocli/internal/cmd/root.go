@@ -8,7 +8,10 @@
 
 package cmd
 
-import "github.com/spf13/cobra"
+import (
+	"github.com/dywoq/zero/tools/zerocli/internal/cmd/tools"
+	"github.com/spf13/cobra"
+)
 
 // Root returns a instance of root command of zerocli.
 func Root() *cobra.Command {
@@ -16,5 +19,6 @@ func Root() *cobra.Command {
 		Use: "zerocli",
 		Short: "Manage Zero source code much safer",
 	}
+	root.AddCommand(tools.Cmd())
 	return root
 }
