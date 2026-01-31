@@ -9,15 +9,13 @@
 #![no_main]
 #![no_std]
 
-pub(crate) mod panic;
+use uefi::{Status, entry, helpers};
 
-use core::time::Duration;
-use uefi::{Status, entry, println};
+pub(crate) mod panic;
 
 #[entry]
 fn main() -> Status {
-    uefi::helpers::init().unwrap();
-    println!("Hi :>");
-    uefi::boot::stall(Duration::from_secs(10));
+    helpers::init();
+
     Status::SUCCESS
 }
