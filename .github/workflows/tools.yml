@@ -1,0 +1,38 @@
+name: Tools
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.25.6'
+
+      - name: Find tools directories with go.mod
+        id: find-tools
+        run: |
+          dirs=$(find tools/* -maxdepth 1 -type f -name "go.mod" -exec dirname {} \;)
+          echo "dirs=$dirs" >> $GITHUB_OUTPUT
+
+      - name: Build
+        run: |
+          for dir in ${{ steps.find-tools.outputs.dirs }}; do
+            echo "Building $dir"
+            (cd "$dir" && go build -v ./...)
+          done
+
+      - name: Test
+        run: |
+          for dir in ${{ steps.find-tools.outputs.dirs }}; do
+            echo "Testing $dir"
+            (cd "$dir" && go test -v ./...)
+          done
