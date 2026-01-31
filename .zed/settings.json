@@ -1,0 +1,12 @@
+{
+  "lsp": {
+    "rust-analyzer": {
+      "initialization_options": {
+        "check": {
+          "targets": ["aarch64-unknown-uefi", "x86_64-unknown-uefi"],
+          "allTargets": false,
+        },
+      },
+    },
+  },
+}
