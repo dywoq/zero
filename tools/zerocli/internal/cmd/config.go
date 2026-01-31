@@ -29,12 +29,12 @@ type Config struct {
 	Script      string `toml:"script"`
 }
 
-// Parser represents the parser of the command configuration files.
-type Parser struct{}
+// ConfigParser represents the parser of the command configuration files.
+type ConfigParser struct{}
 
 // Parse parses .TOML config from r, decoding.
 // Returns an error if it fails.
-func (p *Parser) Parse(r io.Reader) (*Config, error) {
+func (p *ConfigParser) Parse(r io.Reader) (*Config, error) {
 	var config Config
 	_, err := toml.NewDecoder(r).Decode(&config)
 	if err != nil {

@@ -10,8 +10,11 @@ package main
 
 import (
 	"fmt"
+	"io/fs"
 	"os"
+	"path/filepath"
 
+	"github.com/dywoq/zero/tools/zerocli/internal/cmd"
 	"github.com/dywoq/zero/tools/zerocli/internal/root"
 )
 
@@ -30,6 +33,32 @@ func main() {
 	die(err, "Failed to open zerocli.toml configuration file: %v", err)
 
 	rootParser := root.ConfigParser{}
-	_, err = rootParser.Parse(rootFile)
+	config, err := rootParser.Parse(rootFile)
 	die(err, "Failed to parse zerocli.toml configuration file: %v", err)
+
+	cmdParser := cmd.ConfigParser{}
+
+	// Search for command configurations
+	configs := []*cmd.Config{}
+	err = filepath.WalkDir(config.CommandsDir, func(path string, d fs.DirEntry, err error) error {
+		if d.IsDir() {
+			return nil
+		}
+
+		ext := filepath.Ext(d.Name())
+		if ext == ".toml" {
+			f, err := os.Open(path)
+			if err != nil {
+				return err
+			}
+			config, err := cmdParser.Parse(f)
+			if err != nil {
+				return err
+			}
+			configs = append(configs, config)
+		}
+
+		return nil
+	})
+	die(err, "Failed to walk through \"%s\" directory: %s", config.CommandsDir, err)
 }
