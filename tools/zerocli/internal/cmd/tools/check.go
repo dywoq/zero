@@ -25,6 +25,7 @@ var requiredTools = []*requiredTool{
 	{"Rust compiler", "Needed for compilation of code inside rust/ folder", "rustc"},
 	{"Cargo", "Package management inside rust/", "cargo"},
 	{"CMake", "Package management for C/C++", "cmake"},
+	{"Xorriso", "Needed for .ISO image generation", "xorriso"},
 }
 
 func Check() *cobra.Command {
