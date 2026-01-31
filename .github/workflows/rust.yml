@@ -30,11 +30,11 @@ jobs:
 
       # Linting
       - name: Install Clippy [LINTING 1/2]
-        run: rustup component add rustfmt
+        run: rustup component add clippy
         working-directory: ./rust
         if: matrix.target == 'x86_64-unknown-uefi'
       - name: Run clippy [LINTING 2/2]
-        run: cargo fmt -- --check
+        run: cargo clippy -- -D warnings
         working-directory: ./rust
         if: matrix.target == 'x86_64-unknown-uefi'
 
